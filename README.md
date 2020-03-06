@@ -1,3 +1,11 @@
+<!--
+ * @Author: Adam
+ * @Date: 2020-03-06 10:09:57
+ * @LastEditTime: 2020-03-06 16:55:25
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /heatmap.js/README.md
+ -->
 # heatmap.js
 Dynamic Heatmaps for the Web. 
 
@@ -29,7 +37,8 @@ heatmap.js is also hosted on npm:
 Start a webserver (e.g. python SimpleHTTPServer from the project directory root):
 
 `python -m SimpleHTTPServer 1337 &`
-
+`python -m http.server 1337`
+// heatmap.js config defaultGradient
 Then browse to 
 
 `http://localhost:1337/examples/`

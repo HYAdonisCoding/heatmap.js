@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>SO2</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        
+        body {
+            font-family: sans-serif;
+        }
+        
+        body * {
+            font-weight: 200;
+        }
+        
+        h1 {
+            position: absolute;
+            background: white;
+            padding: 10px;
+        }
+        
+        #map {
+            height: 100%;
+        }
+        
+        .leaflet-container {
+            background: rgba(0, 0, 0, .8) !important;
+        }
+        
+        h1 {
+            position: absolute;
+            background: black;
+            color: white;
+            left: 60px;
+            padding: 10px;
+            font-weight: 200;
+            z-index: 10000;
+        }
+        
+        #all-examples-info {
+            position: absolute;
+            background: white;
+            font-size: 16px;
+            padding: 20px;
+            top: 100px;
+            width: 350px;
+            line-height: 150%;
+            border: 1px solid rgba(0, 0, 0, .2);
+        }
+    </style>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script src="/build/heatmap.js"></script>
+    <script src="/plugins/leaflet-heatmap/leaflet-heatmap.js"></script>
+</head>
+
+<body>
+    <h1>SO2</h1>
+
+    <div id="map"></div>
+
+    <!-- <div id="all-examples-info">
+          <strong style="font-weight:bold;line-height:200%;font-size:18px;">Looking for more examples?</strong> <br />Check out the full <a href="http://www.patrick-wied.at/static/heatmapjs/examples.html?utm_source=gh_local" target="_blank">list of all heatmap.js examples</a> with more pointers &amp; inline documentation.
+        </div> -->
+    <script>
+        window.onload = function() {
+
+            var testData = {
+                max: 6,
+                data: [{
+                    lng: 114.3435,
+                    lat: 36.67847,
+                    count: 1
+                }, {
+                    lng: 114.487083,
+                    lat: 36.639778,
+                    count: 5
+                }, {
+                    lng: 114.487083,
+                    lat: 36.639778,
+                    count: 1
+                }, {
+                    lng: 114.486667,
+                    lat: 36.473333,
+                    count: 4
+                }, {
+                    lng: 114.486667,
+                    lat: 36.473333,
+                    count: 1
+                }, {
+                    lng: 114.529556,
+                    lat: 36.645947,
+                    count: 1
+                }, {
+                    lng: 114.437839,
+                    lat: 36.68225,
+                    count: 1
+                }, {
+                    lng: 114.424025,
+                    lat: 36.701856,
+                    count: 1
+                }, {
+                    lng: 114.441444,
+                    lat: 36.078306,
+                    count: 1
+                }, {
+                    lng: 114.358611,
+                    lat: 36.666389,
+                    count: 1
+                }, {
+                    lng: 114.033358,
+                    lat: 36.716239,
+                    count: 1
+                }, {
+                    lng: 114.420556,
+                    lat: 36.691667,
+                    count: 2
+                }, {
+                    lng: 114.393333,
+                    lat: 36.674167,
+                    count: 1
+                }, {
+                    lng: 114.550519,
+                    lat: 36.673317,
+                    count: 1
+                }, {
+                    lng: 114.465,
+                    lat: 36.664722,
+                    count: 1
+                }, {
+                    lng: 114.458611,
+                    lat: 36.6525,
+                    count: 1
+                }, {
+                    lng: 114.438056,
+                    lat: 36.656944,
+                    count: 1
+                }, {
+                    lng: 114.48555,
+                    lat: 36.691547,
+                    count: 1
+                }, {
+                    lng: 114.4979,
+                    lat: 36.692203,
+                    count: 1
+                }, {
+                    lng: 114.395972,
+                    lat: 36.65325,
+                    count: 3
+                }, {
+                    lng: 114.438055,
+                    lat: 36.669722,
+                    count: 1
+                }, {
+                    lng: 114.42,
+                    lat: 36.639723,
+                    count: 1
+                }, {
+                    lng: 114.396111,
+                    lat: 36.664445,
+                    count: 2
+                }, {
+                    lng: 114.476111,
+                    lat: 36.664444,
+                    count: 1
+                }, {
+                    lng: 114.423944,
+                    lat: 36.645583,
+                    count: 1
+                }, {
+                    lng: 114.388022,
+                    lat: 36.660506,
+                    count: 2
+                }, {
+                    lng: 114.386517,
+                    lat: 36.6613,
+                    count: 1
+                }, {
+                    lng: 114.403011,
+                    lat: 36.666189,
+                    count: 1
+                }, {
+                    lng: 114.487964,
+                    lat: 36.695247,
+                    count: 1
+                }, {
+                    lng: 114.487522,
+                    lat: 36.692286,
+                    count: 1
+                }, {
+                    lng: 114.801667,
+                    lat: 36.515278,
+                    count: 1
+                }, {
+                    lng: 114.487844,
+                    lat: 36.692908,
+                    count: 1
+                }, {
+                    lng: 114.476806,
+                    lat: 36.666694,
+                    count: 1
+                }, {
+                    lng: 114.432389,
+                    lat: 36.691111,
+                    count: 1
+                }, {
+                    lng: 114.3715,
+                    lat: 36.676417,
+                    count: 1
+                }, {
+                    lng: 114.343056,
+                    lat: 36.680278,
+                    count: 4
+                }, {
+                    lng: 114.384411,
+                    lat: 36.671139,
+                    count: 1
+                }, {
+                    lng: 114.38075,
+                    lat: 36.668,
+                    count: 1
+                }, {
+                    lng: 114.357889,
+                    lat: 36.683778,
+                    count: 1
+                }, {
+                    lng: 114.347111,
+                    lat: 36.674861,
+                    count: 2
+                }, {
+                    lng: 114.461511,
+                    lat: 36.717822,
+                    count: 2
+                }, {
+                    lng: 114.466778,
+                    lat: 36.717139,
+                    count: 1
+                }, {
+                    lng: 114.461036,
+                    lat: 36.719256,
+                    count: 2
+                }, {
+                    lng: 114.459656,
+                    lat: 36.719786,
+                    count: 2
+                }, {
+                    lng: 114.392989,
+                    lat: 36.736453,
+                    count: 2
+                }, {
+                    lng: 114.461181,
+                    lat: 36.719711,
+                    count: 1
+                }, {
+                    lng: 114.466692,
+                    lat: 36.71624,
+                    count: 2
+                }, {
+                    lng: 114.467908,
+                    lat: 36.721,
+                    count: 1
+                }, {
+                    lng: 114.482681,
+                    lat: 36.714019,
+                    count: 1
+                }, {
+                    lng: 114.506528,
+                    lat: 36.7115,
+                    count: 2
+                }, {
+                    lng: 114.377778,
+                    lat: 36.533333,
+                    count: 1
+                }, {
+                    lng: 114.377778,
+                    lat: 36.533333,
+                    count: 1
+                }, {
+                    lng: 114.518708,
+                    lat: 36.7135,
+                    count: 1
+                }, {
+                    lng: 114.614444,
+                    lat: 36.705278,
+                    count: 1
+                }, {
+                    lng: 114.562778,
+                    lat: 36.723056,
+                    count: 1
+                }, {
+                    lng: 114.389722,
+                    lat: 36.546111,
+                    count: 1
+                }, {
+                    lng: 114.482356,
+                    lat: 36.69085,
+                    count: 1
+                }, {
+                    lng: 114.385556,
+                    lat: 36.670833,
+                    count: 2
+                }, {
+                    lng: 114.511332,
+                    lat: 36.645322,
+                    count: 1
+                }, {
+                    lng: 114.543367,
+                    lat: 36.722369,
+                    count: 1
+                }, {
+                    lng: 114.552433,
+                    lat: 36.725128,
+                    count: 2
+                }, {
+                    lng: 114.494328,
+                    lat: 36.689947,
+                    count: 1
+                }, {
+                    lng: 114.691972,
+                    lat: 36.691971,
+                    count: 1
+                }, {
+                    lng: 114.526056,
+                    lat: 36.690331,
+                    count: 1
+                }, {
+                    lng: 114.535758,
+                    lat: 36.724633,
+                    count: 1
+                }, {
+                    lng: 114.487778,
+                    lat: 36.689167,
+                    count: 1
+                }, {
+                    lng: 114.529219,
+                    lat: 36.729219,
+                    count: 1
+                }, {
+                    lng: 114.535769,
+                    lat: 36.724414,
+                    count: 1
+                }, {
+                    lng: 114.36875,
+                    lat: 36.664269,
+                    count: 1
+                }, {
+                    lng: 114.473889,
+                    lat: 36.639444,
+                    count: 1
+                }, {
+                    lng: 114.473875,
+                    lat: 36.638061,
+                    count: 1
+                }, {
+                    lng: 114.481186,
+                    lat: 36.630408,
+                    count: 1
+                }, {
+                    lng: 114.474167,
+                    lat: 36.638611,
+                    count: 1
+                }, {
+                    lng: 114.465764,
+                    lat: 36.629703,
+                    count: 1
+                }, {
+                    lng: 114.475166,
+                    lat: 36.650138,
+                    count: 1
+                }, {
+                    lng: 114.474333,
+                    lat: 36.641833,
+                    count: 1
+                }, {
+                    lng: 114.474361,
+                    lat: 36.641861,
+                    count: 1
+                }, {
+                    lng: 114.393636,
+                    lat: 36.658481,
+                    count: 1
+                }, {
+                    lng: 114.502389,
+                    lat: 36.712072,
+                    count: 1
+                }, {
+                    lng: 114.500833,
+                    lat: 36.713611,
+                    count: 1
+                }, {
+                    lng: 114.469219,
+                    lat: 36.706353,
+                    count: 1
+                }, {
+                    lng: 114.477719,
+                    lat: 36.709161,
+                    count: 1
+                }, {
+                    lng: 114.461111,
+                    lat: 36.719722,
+                    count: 2
+                }, {
+                    lng: 113.882778,
+                    lat: 36.650278,
+                    count: 1
+                }, {
+                    lng: 114.403056,
+                    lat: 36.674722,
+                    count: 1
+                }, {
+                    lng: 114.546461,
+                    lat: 36.712256,
+                    count: 1
+                }, {
+                    lng: 114.427125,
+                    lat: 36.684197,
+                    count: 1
+                }, {
+                    lng: 114.384,
+                    lat: 36.639722,
+                    count: 1
+                }, {
+                    lng: 114.541444,
+                    lat: 36.660611,
+                    count: 1
+                }, {
+                    lng: 114.541444,
+                    lat: 36.660611,
+                    count: 1
+                }, {
+                    lng: 114.408581,
+                    lat: 36.645519,
+                    count: 1
+                }, {
+                    lng: 114.480667,
+                    lat: 36.693194,
+                    count: 1
+                }, {
+                    lng: 114.821569,
+                    lat: 37.166789,
+                    count: 1
+                }, {
+                    lng: 114.470281,
+                    lat: 36.656839,
+                    count: 1
+                }, {
+                    lng: 113.674722,
+                    lat: 36.849167,
+                    count: 1
+                }, {
+                    lng: 114.464167,
+                    lat: 36.654167,
+                    count: 1
+                }, {
+                    lng: 114.477194,
+                    lat: 36.664522,
+                    count: 1
+                }, {
+                    lng: 114.471111,
+                    lat: 36.663611,
+                    count: 1
+                }, {
+                    lng: 114.473952,
+                    lat: 36.663836,
+                    count: 1
+                }, {
+                    lng: 114.488033,
+                    lat: 36.693767,
+                    count: 1
+                }, {
+                    lng: 114.808611,
+                    lat: 37.153333,
+                    count: 1
+                }, {
+                    lng: 114.800278,
+                    lat: 37.170278,
+                    count: 1
+                }, {
+                    lng: 114.477778,
+                    lat: 36.664721,
+                    count: 1
+                }, {
+                    lng: 114.487056,
+                    lat: 36.691972,
+                    count: 1
+                }, {
+                    lng: 114.492311,
+                    lat: 36.635311,
+                    count: 1
+                }, {
+                    lng: 114.490277,
+                    lat: 36.635833,
+                    count: 1
+                }, {
+                    lng: 114.499444,
+                    lat: 36.632778,
+                    count: 1
+                }, {
+                    lng: 114.499444,
+                    lat: 36.632778,
+                    count: 1
+                }, {
+                    lng: 114.501917,
+                    lat: 36.602211,
+                    count: 1
+                }, {
+                    lng: 114.495603,
+                    lat: 36.620164,
+                    count: 1
+                }, {
+                    lng: 114.512853,
+                    lat: 36.617593,
+                    count: 1
+                }, {
+                    lng: 114.543753,
+                    lat: 36.617956,
+                    count: 1
+                }]
+            };
+
+            var baseLayer = L.tileLayer(
+                'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+                    maxZoom: 18
+                }
+            );
+
+            var cfg = {
+                // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+                "radius": 0.007,
+                "maxOpacity": .8,
+                // scales the radius based on map zoom
+                "scaleRadius": true,
+                // if set to false the heatmap uses the global maximum for colorization
+                // if activated: uses the data maximum within the current map boundaries 
+                //   (there will always be a red spot with useLocalExtremas true)
+                "useLocalExtrema": true,
+                // which field name in your data represents the latitude - default "lat"
+                latField: 'lat',
+                // which field name in your data represents the longitude - default "lng"
+                lngField: 'lng',
+                // which field name in your data represents the data value - default "value"
+                valueField: 'count'
+            };
+
+
+            var heatmapLayer = new HeatmapOverlay(cfg);
+
+            var map = new L.Map('map', {
+                center: new L.LatLng(36.617593, 114.512853),
+                zoom: 11,
+                layers: [baseLayer, heatmapLayer]
+            });
+
+            heatmapLayer.setData(testData);
+
+            // make accessible for debugging
+            layer = heatmapLayer;
+        };
+    </script>
+</body>
+
+</html>

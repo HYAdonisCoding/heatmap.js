@@ -1,5 +1,5 @@
 {
-  "name": "heatmap.js",
+  "name": "heatmap",
   "version": "2.0.5",
   "description": "Dynamic JavaScript Heatmaps for the Web",
   "homepage": "https://www.patrick-wied.at/static/heatmapjs/",
@@ -42,5 +42,8 @@
     "src/renderer.js",
     "src/util.js",
     "src/core.js"
-  ]
+  ],
+  "dependencies": {
+    "heatmap.js": "^2.0.5"
+  }
 }
